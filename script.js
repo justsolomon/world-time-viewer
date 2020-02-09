@@ -33,7 +33,7 @@ function getLocationTime() {
 	let area = timezone.value;
 	let location = areaLocation.value;
 	return fetch(`http://worldtimeapi.org/api/timezone/${area}/${location}`)
-			.then(res => res.json)
+			.then(res => res.json())
 			.catch(err => console.log(err));
 }
 
