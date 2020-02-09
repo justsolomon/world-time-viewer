@@ -24,6 +24,7 @@ const renderAreaLocations = async function() {
 	const data = await getAreaLocations();
 	console.log(data);
 	displayAreaLocations(data);
+	renderLocationTime();
 }
 
 timezone.addEventListener('change', renderAreaLocations)
@@ -52,4 +53,3 @@ const renderLocationTime = async function() {
 }
 
 areaLocation.addEventListener('change', renderLocationTime)
-renderLocationTime();
