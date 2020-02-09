@@ -40,3 +40,6 @@ const renderLocationTime = async function() {
 	const data = await renderLocationTime();
 	console.log(data);
 }
+
+areaLocation.addEventListener('change', renderLocationTime)
+renderLocationTime();
