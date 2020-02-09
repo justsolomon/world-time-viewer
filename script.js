@@ -12,8 +12,9 @@ function displayAreaLocations(locations) {
 	let area = timezone.value;
 	let markup = ``;
 	locations.forEach(location => {
+		let locationValue = location.slice(area.length + 1);
 		markup += `
-			<option value=${location}>${location.slice(area.length + 1)}</option>
+			<option value=${locationValue}>${locationValue}</option>
 		`
 	})
 	areaLocation.innerHTML = markup;
