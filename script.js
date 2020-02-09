@@ -27,3 +27,11 @@ const renderAreaLocations = async function() {
 
 timezone.addEventListener('change', renderAreaLocations)
 renderAreaLocations();
+
+function getLocationTime(location) {
+	let area = timezone.value;
+	let location = areaLocation.value;
+	return fetch(`http://worldtimeapi.org/api/timezone/${area}/${location}`)
+			.then(res => res.json)
+			.catch(err => console.log(err));
+}
