@@ -37,7 +37,7 @@ function getLocationTime() {
 }
 
 const renderLocationTime = async function() {
-	const data = await renderLocationTime();
+	const data = await getLocationTime();
 	console.log(data);
 }
 
