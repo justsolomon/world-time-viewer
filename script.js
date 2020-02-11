@@ -40,9 +40,10 @@ function getLocationTime() {
 
 function displayLocationTime(data) {
 	let date = new Date(data.datetime);
+	let time = data.datetime.slice(11, 19);
 	document.querySelector('.current-time').innerHTML = 
 		`In ${areaLocation.value}, today's date is ${date.toDateString()}
-		 and the time is ${date.toLocaleTimeString()}
+		 and the time is ${time}
 		`
 }
 
