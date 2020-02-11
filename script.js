@@ -40,9 +40,23 @@ function getLocationTime() {
 
 function displayLocationTime(data) {
 	let date = new Date(data.datetime);
+	let time = data.datetime.slice(11, 19);
+	let hour = time.slice(0, 2);
+
+	if (hour === 0 || hour < 12) {
+		time += ' AM';
+	} else if (hour > 12 && hour < 24) {
+		newHour = hour - 12;
+		console.log(newHour)
+		time = time.replace(hour, newHour);
+		time += ' PM';
+	} else if (hour === 12) {
+		time += ' PM';
+	}
+
 	document.querySelector('.current-time').innerHTML = 
 		`In ${areaLocation.value}, today's date is ${date.toDateString()}
-		 and the time is ${date.toLocaleTimeString()}
+		 and the time is ${time}
 		`
 }
 
