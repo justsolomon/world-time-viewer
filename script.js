@@ -38,19 +38,21 @@ function getLocationTime() {
 			.catch(err => console.log(err));
 }
 
-function displayLocationTime(data) {
-	let date = new Date(data.datetime.slice(0, 19));// }
-
-	document.querySelector('.current-time').innerHTML = 
-		`In ${areaLocation.value}, today's date is ${date.toDateString()}
-		 and the time is ${date.toLocaleTimeString()}
-		`
-}
 
 const renderLocationTime = async function() {
 	const data = await getLocationTime();
-	console.log(data);
-	displayLocationTime(data);
+	let millisecs = new Date(data.datetime.slice(0, 19)).getTime();
+	function displayLocationTime() {
+		let date = new Date(millisecs);
+		millisecs += 1000;
+
+		document.querySelector('.current-time').innerHTML = 
+			`In ${areaLocation.value}, today's date is ${date.toDateString()}
+			 and the time is ${date.toLocaleTimeString()}
+			`
+	}
+
+	setInterval(displayLocationTime, 1000)
 }
 
 areaLocation.addEventListener('change', renderLocationTime)
