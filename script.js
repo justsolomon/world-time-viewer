@@ -1,5 +1,6 @@
 const timezone = document.querySelector('#timezone-select');
 const areaLocation = document.querySelector('#location-select');
+const currentTime = document.querySelector('.current-time')
 
 function getAreaLocations() {
 	let area = timezone.value;
@@ -46,7 +47,8 @@ const renderLocationTime = async function() {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		document.querySelector('.current-time').innerHTML = 
+		currentTime.innerHTML = '';
+		currentTime.innerHTML = 
 			`In ${areaLocation.value}, today's date is ${date.toDateString()}
 			 and the time is ${date.toLocaleTimeString()}
 			`
