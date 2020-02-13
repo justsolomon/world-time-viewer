@@ -26,6 +26,7 @@ function displayAreaLocations(locations) {
 }
 
 const renderAreaLocations = async function() {
+	debugger;
 	const data = await getAreaLocations();
 	displayAreaLocations(data);
 	areaLocationLabel.style.display = 'block';
@@ -59,3 +60,5 @@ const renderLocationTime = async function() {
 
 	setInterval(displayLocationTime, 1000)
 }
+
+searchButton.addEventListener('click', renderLocationTime)
