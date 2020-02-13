@@ -1,6 +1,7 @@
 const timezone = document.querySelector('#timezone-select');
 const areaLocation = document.querySelector('#location-select');
-const currentTime = document.querySelector('.current-time')
+const currentTime = document.querySelector('.current-time');
+const searchButton = document.querySelector('.search-button');
 
 function getAreaLocations() {
 	let area = timezone.value;
@@ -25,11 +26,9 @@ const renderAreaLocations = async function() {
 	const data = await getAreaLocations();
 	console.log(data);
 	displayAreaLocations(data);
-	renderLocationTime();
 }
 
 timezone.addEventListener('change', renderAreaLocations)
-renderAreaLocations();
 
 function getLocationTime() {
 	let area = timezone.value;
@@ -56,5 +55,3 @@ const renderLocationTime = async function() {
 
 	setInterval(displayLocationTime, 1000)
 }
-
-areaLocation.addEventListener('change', renderLocationTime)
