@@ -2,6 +2,7 @@ const timezone = document.querySelector('#timezone-select');
 const areaLocation = document.querySelector('#location-select');
 const currentTime = document.querySelector('.current-time');
 const searchButton = document.querySelector('.search-button');
+const areaLocationLabel = document.querySelector('.locations-label');
 
 function getAreaLocations() {
 	let area = timezone.value;
