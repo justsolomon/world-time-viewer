@@ -1,5 +1,10 @@
 const timezone = document.querySelector('#timezone-select');
 const areaLocation = document.querySelector('#location-select');
+const currentTime = document.querySelector('.current-time');
+const searchButton = document.querySelector('.search-button');
+const areaLocationLabel = document.querySelector('.locations-label');
+areaLocationLabel.style.display = 'none';
+searchButton.disabled = true;
 
 function getAreaLocations() {
 	let area = timezone.value;
@@ -22,13 +27,14 @@ function displayAreaLocations(locations) {
 
 const renderAreaLocations = async function() {
 	const data = await getAreaLocations();
-	console.log(data);
+	if(timeInterval) clearInterval(timeInterval);
+	currentTime.innerHTML = '';
 	displayAreaLocations(data);
-	renderLocationTime();
+	areaLocationLabel.style.display = 'block';
+	searchButton.disabled = false;
 }
 
 timezone.addEventListener('change', renderAreaLocations)
-renderAreaLocations();
 
 function getLocationTime() {
 	let area = timezone.value;
@@ -38,7 +44,7 @@ function getLocationTime() {
 			.catch(err => console.log(err));
 }
 
-
+let timeInterval;
 const renderLocationTime = async function() {
 	const data = await getLocationTime();
 	let millisecs = new Date(data.datetime.slice(0, 19)).getTime();
@@ -46,13 +52,13 @@ const renderLocationTime = async function() {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		document.querySelector('.current-time').innerHTML = 
+		currentTime.innerHTML = 
 			`In ${areaLocation.value}, today's date is ${date.toDateString()}
 			 and the time is ${date.toLocaleTimeString()}
 			`
 	}
 
-	setInterval(displayLocationTime, 1000)
+	timeInterval = setInterval(displayLocationTime, 1000)
 }
 
-areaLocation.addEventListener('change', renderLocationTime)
+searchButton.addEventListener('click', renderLocationTime)
