@@ -28,6 +28,8 @@ function displayAreaLocations(locations) {
 const renderAreaLocations = async function() {
 	const data = await getAreaLocations();
 	displayAreaLocations(data);
+	areaLocationLabel.style.display = 'block';
+	searchButton.disabled = false;
 }
 
 timezone.addEventListener('change', renderAreaLocations)
