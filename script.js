@@ -3,6 +3,8 @@ const areaLocation = document.querySelector('#location-select');
 const currentTime = document.querySelector('.current-time');
 const searchButton = document.querySelector('.search-button');
 const areaLocationLabel = document.querySelector('.locations-label');
+areaLocationLabel.style.display = 'none';
+searchButton.disabled = true;
 
 function getAreaLocations() {
 	let area = timezone.value;
@@ -25,7 +27,6 @@ function displayAreaLocations(locations) {
 
 const renderAreaLocations = async function() {
 	const data = await getAreaLocations();
-	console.log(data);
 	displayAreaLocations(data);
 }
 
