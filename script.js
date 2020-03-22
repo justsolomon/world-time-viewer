@@ -1,34 +1,7 @@
-// const timezone = document.querySelector('#timezone-select');
-// const areaLocation = document.querySelector('#location-select');
 const currentTime = document.querySelector('.current-time');
-// const searchButton = document.querySelector('.search-button');
-// const areaLocationLabel = document.querySelector('.locations-label');
 const hour = document.querySelector('.hours')
 const minute = document.querySelector('.minutes')
 const second = document.querySelector('.seconds')
-
-// areaLocationLabel.style.display = 'none';
-// searchButton.disabled = true;
-
-// function getAreaLocations() {
-// 	let area = timezone.value;
-// 	return fetch(`http://worldtimeapi.org/api/timezone/${area}`)
-// 			.then(res => res.json())
-// 			.catch(err => console.log(err));
-// }
-
-// function displayAreaLocations(locations) {
-// 	let area = timezone.value;
-// 	let markup = ``;
-// 	locations.forEach(location => {
-// 		let locationValue = location.slice(area.length + 1);
-// 		markup += `
-// 			<option value=${locationValue}>${locationValue}</option>
-// 		`
-// 	})
-// 	areaLocation.innerHTML = markup;
-// }
-
 // const renderAreaLocations = async function() {
 // 	const data = await getAreaLocations();
 // 	if(timeInterval) clearInterval(timeInterval);
