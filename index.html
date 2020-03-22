@@ -7,7 +7,7 @@
 <body>
 	<main>
 		<div>
-			<label for="timezones">
+			<!-- <label for="timezones">
 				<span>Select timezone: </span>
 				<select name="timezones" id="timezone-select">
 					<option value="none"></option>
@@ -25,7 +25,13 @@
 				<span>Select location: </span>
 				<select name="area locations" id="location-select"></select>
 			</label>
-			<button class="search-button">View time</button>
+			<button class="search-button">View time</button> -->
+			<form>
+				<label for="search-input">
+					<input type="text" name="city" placeholder="Enter a city or place..." class="search">
+				</label>
+				<ul class="suggestions"></ul>
+			</form>
 		</div>
 		<p class="current-time"></p>
 		
@@ -44,6 +50,7 @@
 		</article>
 	</main>
 
+	<script type="text/javascript" src="../../cityData.json"></script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
