@@ -12,6 +12,11 @@ html {
   box-sizing: inherit;
 }
 
+main {
+	width: 90%;
+	margin: 0 auto;
+}
+
 /* ====================
 	Form/search-results
 	styles
@@ -73,13 +78,18 @@ form {
 	Analog clock styles
 ===================== */
 
+.main-display {
+	display: flex;
+	justify-content: space-between;
+}
+
 .clock {
 	border-radius: 50%;
 	background: #fff url(https://cssanimation.rocks/images/posts/clocks/ios_clock.svg) no-repeat center;
-	height: 20em;
+	height: 10em;
 	background-size: 88%;
 	position: relative;
-	width: 20em;
+	width: 10em;
 }
 
 .clock:after {
@@ -90,8 +100,8 @@ form {
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 1.1rem;
-	height: 1.1rem;
+	width: .7rem;
+	height: .7rem;
 	z-index: 10;
 }
 
