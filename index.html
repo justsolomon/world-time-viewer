@@ -6,7 +6,7 @@
 </head>
 <body>
 	<main>
-		<div>
+		<div class="search-display">
 			<form class="search-form">
 				<label for="search-input">
 					<input type="text" name="city" placeholder="Enter a city or place..." class="search">
@@ -14,21 +14,53 @@
 				<ul class="suggestions"></ul>
 			</form>
 		</div>
+
 		<p class="current-time"></p>
+
+		<div class="main-display">		
+			<article class="clock">
+				<div class="hours-container">
+					<div class="hours"></div>
+				</div>
+				
+				<div class="minutes-container">
+					<div class="minutes"></div>
+				</div>
+				
+				<div class="seconds-container">
+					<div class="seconds"></div>
+				</div>
+			</article>
+
+			<article class="clock">
+				<div class="hours-container">
+					<div class="hours"></div>
+				</div>
+				
+				<div class="minutes-container">
+					<div class="minutes"></div>
+				</div>
+				
+				<div class="seconds-container">
+					<div class="seconds"></div>
+				</div>
+			</article>
+
+			<article class="clock">
+				<div class="hours-container">
+					<div class="hours"></div>
+				</div>
+				
+				<div class="minutes-container">
+					<div class="minutes"></div>
+				</div>
+				
+				<div class="seconds-container">
+					<div class="seconds"></div>
+				</div>
+			</article>
+		</div>
 		
-		<article class="clock">
- 			<div class="hours-container">
-    			<div class="hours"></div>
-  			</div>
-			
-			<div class="minutes-container">
-				<div class="minutes"></div>
-			</div>
-			
-			<div class="seconds-container">
-				<div class="seconds"></div>
-			</div>
-		</article>
 	</main>
 
 	<script type="text/javascript" src="../../cityData.json"></script>
