@@ -2,6 +2,7 @@ const currentTime = document.querySelector('.current-time');
 const hour = document.querySelector('.hours')
 const minute = document.querySelector('.minutes')
 const second = document.querySelector('.seconds')
+
 // const renderAreaLocations = async function() {
 // 	const data = await getAreaLocations();
 // 	if(timeInterval) clearInterval(timeInterval);
@@ -11,7 +12,56 @@ const second = document.querySelector('.seconds')
 // 	searchButton.disabled = false;
 // }
 
-// timezone.addEventListener('change', renderAreaLocations)
+
+//import json data into cityData variable
+const cityData = data
+
+function findMatches(wordToMatch, cityData) {
+	//filter out city objects matching search term
+	return cityData.filter(place => {
+		const regex = new RegExp(wordToMatch, 'gi');
+		return place.city.match(regex) || place.country.match(regex)
+	})
+}
+
+function displayMatches() {
+	//remove suggestions list when input is blank
+	if (this.value === '') {
+		suggestions.style.display = 'none';
+		return
+	}
+
+	//add markup of suggestions list to page
+	const matchArray = findMatches(this.value, cityData)
+	let markup = matchArray.map(place => {
+		return `
+			<li class="location">
+				<span class="name">${place.city}, ${place.country}</span>
+				<span class="flag">${place.flag}</span>
+			</li>
+		`
+	}).join('');
+	suggestions.style.display = 'block'
+	suggestions.innerHTML = markup; 
+	locations = document.querySelectorAll('.location')
+
+	//add event listener on each list item for rendering their time
+	locations.forEach(location => {
+		cityName = location.querySelector('.name').textContent
+		commaIndex = cityName.indexOf(',')
+		cityName = cityName.slice(0, commaIndex)
+		location.addEventListener('click', function() {
+			arr = findMatches(cityName, cityData)
+			renderLocationTime(arr[0])
+		})
+	})
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
+
 
 function getLocationTime(endpoint) {
 	return fetch(`${endpoint}`)
@@ -50,9 +100,6 @@ const renderLocationTime = async function(location) {
 
 	timeInterval = setInterval(displayLocationTime, 1000)
 }
-
-// searchButton.addEventListener('click', renderLocationTime)
-
 
 function clockTime(date) {
 	//to set initial positions of the hands
@@ -108,48 +155,3 @@ function moveMinuteHourHands(container) {
 		hourContainer.style.transform = `rotateZ(${hourContainer.angle}deg)`
 	}, 60000);
 }
-
-let cityData = data
-console.log(cityData)
-
-
-function findMatches(wordToMatch, cityData) {
-	return cityData.filter(place => {
-		const regex = new RegExp(wordToMatch, 'gi');
-		return place.city.match(regex) || place.country.match(regex)
-	})
-}
-
-function displayMatches() {
-	if (this.value === '') {
-		suggestions.style.display = 'none';
-		return
-	}
-	const matchArray = findMatches(this.value, cityData)
-	let markup = matchArray.map(place => {
-		return `
-			<li class="location">
-				<span class="name">${place.city}, ${place.country}</span>
-				<span class="flag">${place.flag}</span>
-			</li>
-		`
-	}).join('');
-	suggestions.style.display = 'block'
-	suggestions.innerHTML = markup; 
-	locations = document.querySelectorAll('.location')
-
-	locations.forEach(location => {
-		cityName = location.querySelector('.name').textContent
-		commaIndex = cityName.indexOf(',')
-		cityName = cityName.slice(0, commaIndex)
-		location.addEventListener('click', function() {
-			arr = findMatches(cityName, cityData)
-			renderLocationTime(arr[0])
-		})
-	})
-}
-
-const searchInput = document.querySelector('.search')
-const suggestions = document.querySelector('.suggestions')
-searchInput.addEventListener('change', displayMatches)
-searchInput.addEventListener('keyup', displayMatches)
