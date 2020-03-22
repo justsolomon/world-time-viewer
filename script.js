@@ -83,7 +83,7 @@ const renderLocationTime = async function(location, locationContainer) {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		locationContainer.querySelector('.time').textContent = `${date.toLocaleTimeString()}`;
+		locationContainer.querySelector('.time').textContent = `${days[date.getDay()]} ${date.toLocaleTimeString()}`;
 		//to keep rotating the seconds hand
 		const container = locationContainer.querySelector('.seconds-container');
 		if (container.angle === undefined) container.angle = 6;
@@ -149,6 +149,8 @@ function moveMinuteHourHands(container, locationContainer) {
 	}, 60000);
 }
 
+
+let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
 //create and fill array of cities displayed on homepage 
 let homeCities = []
 cityData.forEach(city => {
