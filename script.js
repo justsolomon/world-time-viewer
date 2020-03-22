@@ -189,7 +189,7 @@ const locationContainers = document.querySelectorAll('.location-container')
 //display times of cities on homepage
 for (let i = 0; i < homeCities.length; i++) {
 	countryDetails[i].innerHTML = `
-		<p class="country-name">${homeCities[i].city}, ${homeCities[i].country} ${homeCities[i].flag}</p>
+		<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
 		<p class="time"></p>
 	`
 	renderLocationTime(homeCities[i], locationContainers[i]);
