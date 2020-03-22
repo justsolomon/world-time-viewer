@@ -1,8 +1,3 @@
-const currentTime = document.querySelector('.current-time');
-const hour = document.querySelector('.hours')
-const minute = document.querySelector('.minutes')
-const second = document.querySelector('.seconds')
-
 // const renderAreaLocations = async function() {
 // 	const data = await getAreaLocations();
 // 	if(timeInterval) clearInterval(timeInterval);
@@ -63,46 +58,43 @@ searchInput.addEventListener('change', displayMatches)
 searchInput.addEventListener('keyup', displayMatches)
 
 
-
 function getLocationTime(endpoint) {
 	return fetch(`${endpoint}`)
 			.then(res => res.json())
 			.catch(err => console.log(err));
 }
 
-let timeInterval;
-const renderLocationTime = async function(location) {
+const renderLocationTime = async function(location, locationContainer) {
+	// let timeInterval;
 	const data = await getLocationTime(location.apiEndpoint);
 	let millisecs = new Date(data.datetime.slice(0, 19)).getTime();
-	clockTime(new Date(millisecs))
+
+	const hour = locationContainer.querySelector('.hours')
+	const minute = locationContainer.querySelector('.minutes')
+	const second = locationContainer.querySelector('.seconds')
+
+	clockTime(new Date(millisecs), hour, minute, second)
 
 	millisecs += 1000; //account for delay caused by setInterval function
 
-	setUpMinuteHands()
+	setUpMinuteHands(locationContainer);
+
 	function displayLocationTime() {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		// currentTime.innerHTML = 
-		// 	`In ${location.city}, today's date is ${date.toDateString()}
-		// 	 and the time is ${date.toLocaleTimeString()}
-		// 	`
-		markup += `${date.toLocaleTimeString()}`
+		locationContainer.querySelector('.time').textContent = `${date.toLocaleTimeString()}`;
 		//to keep rotating the seconds hand
-		const container = document.querySelector('.seconds-container');
+		const container = locationContainer.querySelector('.seconds-container');
 		if (container.angle === undefined) container.angle = 6;
 		else container.angle += 6;
-		container.style.transform = `rotateZ(${container.angle}deg)`
-		
-		//add delay when moving
-		let randomOffset = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
-		container.style.transitionDelay = '0.0'+ randomOffset +'s';
+		container.style.transform = `rotateZ(${container.angle}deg)`;
 	}
 
-	timeInterval = setInterval(displayLocationTime, 1000)
+	setInterval(displayLocationTime, 1000)
 }
 
-function clockTime(date) {
+function clockTime(date, hour, minute, second) {
 	//to set initial positions of the hands
 	let seconds = date.getSeconds();
 	let minutes = date.getMinutes();
@@ -129,19 +121,19 @@ function clockTime(date) {
 	hands[1].hand.parentNode.setAttribute('data-second-angle', hands[2].angle)
 }
 
-function setUpMinuteHands() {
-	const container = document.querySelector('.minutes-container');
+function setUpMinuteHands(locationContainer) {
+	const container = locationContainer.querySelector('.minutes-container');
 	let secondAngle = container.getAttribute('data-second-angle')
 	if (secondAngle > 0) {
 		let delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
 		setTimeout(function() {
-			moveMinuteHourHands(container);
+			moveMinuteHourHands(container, locationContainer);
 		}, delay)
 	}
 }
 
-function moveMinuteHourHands(container) {
-	const hourContainer = document.querySelector('.hours-container');
+function moveMinuteHourHands(container, locationContainer) {
+	const hourContainer = locationContainer.querySelector('.hours-container');
 	container.style.transform = 'rotateZ(6deg)';
 	hourContainer.style.transform = 'rotateZ(0.5deg)';
 
@@ -167,32 +159,38 @@ cityData.forEach(city => {
 })
 
 const detailsDiv = document.querySelector('.main-display')
+
+//add analog clock markup to page
 for (let i = 0; i < 5; i++) {
 	detailsDiv.insertAdjacentHTML(`beforeend`, `
-			<article class="clock">
-				<div class="hours-container">
-					<div class="hours"></div>
-				</div>
-						
-				<div class="minutes-container">
-					<div class="minutes"></div>
-				</div>
-						
-				<div class="seconds-container">
-					<div class="seconds"></div>
-				</div>
+			<div class = "location-container">
+				<article class="clock">
+					<div class="hours-container">
+						<div class="hours"></div>
+					</div>
+							
+					<div class="minutes-container">
+						<div class="minutes"></div>
+					</div>
+							
+					<div class="seconds-container">
+						<div class="seconds"></div>
+					</div>
+				</article>
 
 				<div class="country-details"></div>
-			</article>	
+			</div>
 		`)
 }
 
 const countryDetails = document.querySelectorAll('.country-details')
+const locationContainers = document.querySelectorAll('.location-container')
+
+//display times of cities on homepage
 for (let i = 0; i < homeCities.length; i++) {
-	let markup = '';
-	renderLocationTime(homeCities[i]);
 	countryDetails[i].innerHTML = `
 		<p class="country-name">${homeCities[i].city}, ${homeCities[i].country} ${homeCities[i].flag}</p>
-		<p class="time">${markup} ${homeCities[i].timezone}</p>
+		<p class="time"></p>
 	`
+	renderLocationTime(homeCities[i], locationContainers[i]);
 }
