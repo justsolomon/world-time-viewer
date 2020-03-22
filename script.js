@@ -63,6 +63,7 @@ searchInput.addEventListener('change', displayMatches)
 searchInput.addEventListener('keyup', displayMatches)
 
 
+
 function getLocationTime(endpoint) {
 	return fetch(`${endpoint}`)
 			.then(res => res.json())
@@ -82,11 +83,11 @@ const renderLocationTime = async function(location) {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		currentTime.innerHTML = 
-			`In ${location.city}, today's date is ${date.toDateString()}
-			 and the time is ${date.toLocaleTimeString()}
-			`
-
+		// currentTime.innerHTML = 
+		// 	`In ${location.city}, today's date is ${date.toDateString()}
+		// 	 and the time is ${date.toLocaleTimeString()}
+		// 	`
+		markup += `${date.toLocaleTimeString()}`
 		//to keep rotating the seconds hand
 		const container = document.querySelector('.seconds-container');
 		if (container.angle === undefined) container.angle = 6;
@@ -154,4 +155,24 @@ function moveMinuteHourHands(container) {
 		container.style.transform = `rotateZ(${container.angle}deg)`
 		hourContainer.style.transform = `rotateZ(${hourContainer.angle}deg)`
 	}, 60000);
+}
+
+//create and fill array of cities displayed on homepage 
+let homeCities = []
+cityData.forEach(city => {
+	if(city.city === 'Lagos' || city.city === 'New_York' ||
+		city.city === 'Havana' || city.city === 'Berlin' || city.city === 'Madrid') {
+		homeCities.push(city)
+	}
+})
+
+
+const countryDetails = document.querySelectorAll('.country-details')
+for (let i = 0; i < homeCities.length; i++) {
+	let markup = '';
+	renderLocationTime(homeCities[i]);
+	countryDetails[i].innerHTML = `
+		<p class="country-name">${homeCities[i].city}, ${homeCities[i].country} ${homeCities[i].flag}</p>
+		<p class="time">${markup} ${homeCities[i].timezone}</p>
+	`
 }
