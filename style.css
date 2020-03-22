@@ -1,0 +1,190 @@
+html {
+  box-sizing: border-box;
+  background: #ffc600;
+  font-family: 'helvetica neue';
+  font-weight: 200;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+main {
+	width: 95%;
+	margin: 0 auto;
+}
+
+/* ====================
+	Form/search-results
+	styles
+==================== */
+
+form {
+	max-width: 350px;
+	margin: 3rem auto;
+}
+
+.search {
+	width: 100%;
+	padding: 1rem;
+	height: 2.5rem;
+	margin: 0 auto;
+	text-align: center;
+	outline: 0;
+	border: 2px solid #F7F7F7;
+	position: relative;
+	z-index: 2;
+	border-radius: 5px;
+	font-size: 1.3rem;
+}
+
+.suggestions {
+	max-height: 25em;
+	overflow: hidden;
+	width: 100%;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.suggestions li {
+	background: rgba(255, 255, 255, .9);
+	list-style: none;
+	border-bottom: 1px solid #D8D8D8;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+	margin: 0;
+	padding: 20px;
+	transition: background 0.2s;
+	display: flex;
+	justify-content: space-between;
+	text-transform: capitalize;
+	cursor: pointer;
+	font-size: 1.2rem;
+}
+
+.suggestions li:hover {
+	background-color: #fff;
+}
+
+/* =====================
+	Analog clock/country
+	details styles
+===================== */
+
+/* country details */
+.main-display {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.location-container {
+	width: 10em;
+}
+
+.country-name {
+	font-size: 1.2rem;
+	font-weight: bold;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+.time {
+	padding: 0;
+	margin: 0;
+}
+
+/* analog clock */
+.clock {
+	border-radius: 50%;
+	background: #fff url(https://cssanimation.rocks/images/posts/clocks/ios_clock.svg) no-repeat center;
+	height: 10em;
+	background-size: 88%;
+	position: relative;
+	width: 10em;
+}
+
+.clock:after {
+	background: #000;
+	border-radius: 50%;
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: .8rem;
+	height: .8rem;
+	z-index: 10;
+}
+
+.minutes-container,
+.hours-container,
+.seconds-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.minutes-container {
+	transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+}
+
+.seconds-container {
+	transition: transform 0.2s cubic-bezier(.4,2.08,.55,.44);
+}
+
+.hours {
+	background: #000;
+	height: 20%;
+	left: 48.75%;
+	position: absolute;
+	top: 30%;
+	transform-origin: 50% 100%;
+	width: 2.5%;
+}
+
+.minutes {
+	background: #000;
+	height: 40%;
+	left: 49%;
+	position: absolute;
+	top: 10%;
+	transform-origin: 50% 100%;
+	width: 2%;
+}
+
+.seconds {
+	background: #000;
+	height: 45%;
+	left: 49.5%;
+	position: absolute;
+	top: 14%;
+	transform-origin: 50% 80%;
+	width: 1%;
+	z-index: 8;
+}
+
+@media(max-width: 650px) {
+	form {
+		width: 100%;
+	}
+	.location-container {
+		/*width: 8em;*/
+	}
+	.suggestions li {
+		font-size: 1rem;
+	}
+	.clock {
+		height: 7em;
+		width: 7em;
+	}
+	.clock:after {
+		width: .6rem;
+		height: .6rem;
+	}
+}

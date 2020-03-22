@@ -2,33 +2,24 @@
 <html>
 <head>
 	<title>World Time Viewer</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<main>
-		<div>
-			<label for="timezones">
-				<span>Select timezone: </span>
-				<select name="timezones" id="timezone-select">
-					<option value="none"></option>
-					<option value="Africa">Africa</option>
-					<option value="America">America</option>
-					<option value="Antarctica">Antarctica</option>
-					<option value="Asia">Asia</option>
-					<option value="Atlantic">Atlantic</option>
-					<option value="Europe">Europe</option>
-					<option value="Pacific">Pacific</option>
-				</select>
-			</label>
-			<br>
-			<label for="area locations" class="locations-label">
-				<span>Select location: </span>
-				<select name="area locations" id="location-select"></select>
-			</label>
-			<button class="search-button">View time</button>
+		<div class="search-display">
+			<form class="search-form">
+				<label for="search-input">
+					<input type="text" name="city" placeholder="Enter a city or place..." class="search">
+				</label>
+				<ul class="suggestions"></ul>
+			</form>
 		</div>
-		<p class="current-time"></p>
+		
+		<div class="main-display"></div>
+		
 	</main>
 
+	<script type="text/javascript" src="../../cityData.json"></script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
