@@ -166,6 +166,26 @@ cityData.forEach(city => {
 	}
 })
 
+const detailsDiv = document.querySelector('.main-display')
+for (let i = 0; i < 5; i++) {
+	detailsDiv.insertAdjacentHTML(`beforeend`, `
+			<article class="clock">
+				<div class="hours-container">
+					<div class="hours"></div>
+				</div>
+						
+				<div class="minutes-container">
+					<div class="minutes"></div>
+				</div>
+						
+				<div class="seconds-container">
+					<div class="seconds"></div>
+				</div>
+
+				<div class="country-details"></div>
+			</article>	
+		`)
+}
 
 const countryDetails = document.querySelectorAll('.country-details')
 for (let i = 0; i < homeCities.length; i++) {
