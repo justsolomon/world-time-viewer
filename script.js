@@ -1,56 +1,54 @@
-const timezone = document.querySelector('#timezone-select');
-const areaLocation = document.querySelector('#location-select');
+// const timezone = document.querySelector('#timezone-select');
+// const areaLocation = document.querySelector('#location-select');
 const currentTime = document.querySelector('.current-time');
-const searchButton = document.querySelector('.search-button');
-const areaLocationLabel = document.querySelector('.locations-label');
+// const searchButton = document.querySelector('.search-button');
+// const areaLocationLabel = document.querySelector('.locations-label');
 const hour = document.querySelector('.hours')
 const minute = document.querySelector('.minutes')
 const second = document.querySelector('.seconds')
 
-areaLocationLabel.style.display = 'none';
-searchButton.disabled = true;
+// areaLocationLabel.style.display = 'none';
+// searchButton.disabled = true;
 
-function getAreaLocations() {
-	let area = timezone.value;
-	return fetch(`http://worldtimeapi.org/api/timezone/${area}`)
-			.then(res => res.json())
-			.catch(err => console.log(err));
-}
+// function getAreaLocations() {
+// 	let area = timezone.value;
+// 	return fetch(`http://worldtimeapi.org/api/timezone/${area}`)
+// 			.then(res => res.json())
+// 			.catch(err => console.log(err));
+// }
 
-function displayAreaLocations(locations) {
-	let area = timezone.value;
-	let markup = ``;
-	locations.forEach(location => {
-		let locationValue = location.slice(area.length + 1);
-		markup += `
-			<option value=${locationValue}>${locationValue}</option>
-		`
-	})
-	areaLocation.innerHTML = markup;
-}
+// function displayAreaLocations(locations) {
+// 	let area = timezone.value;
+// 	let markup = ``;
+// 	locations.forEach(location => {
+// 		let locationValue = location.slice(area.length + 1);
+// 		markup += `
+// 			<option value=${locationValue}>${locationValue}</option>
+// 		`
+// 	})
+// 	areaLocation.innerHTML = markup;
+// }
 
-const renderAreaLocations = async function() {
-	const data = await getAreaLocations();
-	if(timeInterval) clearInterval(timeInterval);
-	currentTime.innerHTML = '';
-	displayAreaLocations(data);
-	areaLocationLabel.style.display = 'block';
-	searchButton.disabled = false;
-}
+// const renderAreaLocations = async function() {
+// 	const data = await getAreaLocations();
+// 	if(timeInterval) clearInterval(timeInterval);
+// 	currentTime.innerHTML = '';
+// 	displayAreaLocations(data);
+// 	areaLocationLabel.style.display = 'block';
+// 	searchButton.disabled = false;
+// }
 
-timezone.addEventListener('change', renderAreaLocations)
+// timezone.addEventListener('change', renderAreaLocations)
 
-function getLocationTime() {
-	let area = timezone.value;
-	let location = areaLocation.value;
-	return fetch(`http://worldtimeapi.org/api/timezone/${area}/${location}`)
+function getLocationTime(endpoint) {
+	return fetch(`${endpoint}`)
 			.then(res => res.json())
 			.catch(err => console.log(err));
 }
 
 let timeInterval;
-const renderLocationTime = async function() {
-	const data = await getLocationTime();
+const renderLocationTime = async function(location) {
+	const data = await getLocationTime(location.apiEndpoint);
 	let millisecs = new Date(data.datetime.slice(0, 19)).getTime();
 	clockTime(new Date(millisecs))
 
@@ -62,7 +60,7 @@ const renderLocationTime = async function() {
 		millisecs += 1000;
 
 		currentTime.innerHTML = 
-			`In ${areaLocation.value}, today's date is ${date.toDateString()}
+			`In ${location.city}, today's date is ${date.toDateString()}
 			 and the time is ${date.toLocaleTimeString()}
 			`
 
@@ -80,7 +78,7 @@ const renderLocationTime = async function() {
 	timeInterval = setInterval(displayLocationTime, 1000)
 }
 
-searchButton.addEventListener('click', renderLocationTime)
+// searchButton.addEventListener('click', renderLocationTime)
 
 
 function clockTime(date) {
@@ -137,3 +135,48 @@ function moveMinuteHourHands(container) {
 		hourContainer.style.transform = `rotateZ(${hourContainer.angle}deg)`
 	}, 60000);
 }
+
+let cityData = data
+console.log(cityData)
+
+
+function findMatches(wordToMatch, cityData) {
+	return cityData.filter(place => {
+		const regex = new RegExp(wordToMatch, 'gi');
+		return place.city.match(regex) || place.country.match(regex)
+	})
+}
+
+function displayMatches() {
+	if (this.value === '') {
+		suggestions.style.display = 'none';
+		return
+	}
+	const matchArray = findMatches(this.value, cityData)
+	let markup = matchArray.map(place => {
+		return `
+			<li class="location">
+				<span class="name">${place.city}, ${place.country}</span>
+				<span class="flag">${place.flag}</span>
+			</li>
+		`
+	}).join('');
+	suggestions.style.display = 'block'
+	suggestions.innerHTML = markup; 
+	locations = document.querySelectorAll('.location')
+
+	locations.forEach(location => {
+		cityName = location.querySelector('.name').textContent
+		commaIndex = cityName.indexOf(',')
+		cityName = cityName.slice(0, commaIndex)
+		location.addEventListener('click', function() {
+			arr = findMatches(cityName, cityData)
+			renderLocationTime(arr[0])
+		})
+	})
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
