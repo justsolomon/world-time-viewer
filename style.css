@@ -42,7 +42,7 @@ form {
 
 .suggestions {
 	max-height: 25em;
-	overflow: hidden;
+	overflow: auto;
 	width: 100%;
 	list-style-type: none;
 	padding: 0;
