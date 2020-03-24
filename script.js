@@ -8,8 +8,18 @@
 // }
 
 
-//import json data into cityData variable
-const cityData = data
+//fetch json data(from github gist) into cityData variable
+let cityData;
+
+async function getData(){
+	await fetch('https://gist.githubusercontent.com/Solomon403/a95358686118afddc920e84b763ad634/raw/264a1f0c2913de32fd6eb2e06b1ae3aa9ccb214a/cityData.json')
+			.then(res => res.json())
+			.then(data => cityData = data)
+			.catch(err => console.log(err))
+	checkCities()
+}
+
+getData()
 
 function findMatches(wordToMatch, cityData) {
 	//filter out city objects matching search term
@@ -153,48 +163,49 @@ function moveMinuteHourHands(container, locationContainer) {
 let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
 //create and fill array of cities displayed on homepage 
 let homeCities = []
-cityData.forEach(city => {
-	if(city.city === 'Lagos' || city.city === 'New_York' ||
-		city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
-		homeCities.push(city)
+
+function checkCities() {
+	cityData.forEach(city => {
+		if(city.city === 'Lagos' || city.city === 'New_York' ||
+			city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
+			homeCities.push(city)
+		}
+	})
+	const detailsDiv = document.querySelector('.main-display')
+
+	//add analog clock markup to page
+	for (let i = 0; i < 5; i++) {
+		detailsDiv.insertAdjacentHTML(`beforeend`, `
+				<div class = "location-container">
+					<article class="clock">
+						<div class="hours-container">
+							<div class="hours"></div>
+						</div>
+								
+						<div class="minutes-container">
+							<div class="minutes"></div>
+						</div>
+								
+						<div class="seconds-container">
+							<div class="seconds"></div>
+						</div>
+					</article>
+
+					<div class="country-details"></div>
+				</div>
+			`)
 	}
-})
 
-const detailsDiv = document.querySelector('.main-display')
+	const countryDetails = document.querySelectorAll('.country-details')
+	const locationContainers = document.querySelectorAll('.location-container')
 
-//add analog clock markup to page
-for (let i = 0; i < 5; i++) {
-	detailsDiv.insertAdjacentHTML(`beforeend`, `
-			<div class = "location-container">
-				<article class="clock">
-					<div class="hours-container">
-						<div class="hours"></div>
-					</div>
-							
-					<div class="minutes-container">
-						<div class="minutes"></div>
-					</div>
-							
-					<div class="seconds-container">
-						<div class="seconds"></div>
-					</div>
-				</article>
-
-				<div class="country-details"></div>
-			</div>
-		`)
+	//display times of cities on homepage
+	for (let i = 0; i < homeCities.length; i++) {
+		countryDetails[i].innerHTML = `
+			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+			<p class="time"></p>
+		`
+		renderLocationTime(homeCities[i], locationContainers[i]);
+	}
 }
 
-const countryDetails = document.querySelectorAll('.country-details')
-const locationContainers = document.querySelectorAll('.location-container')
-
-//display times of cities on homepage
-for (let i = 0; i < homeCities.length; i++) {
-	countryDetails[i].innerHTML = `
-		<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
-		<p class="time"></p>
-	`
-	renderLocationTime(homeCities[i], locationContainers[i]);
-}
-
-// const mapData = mapData
