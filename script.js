@@ -64,8 +64,8 @@ function getLocationTime(endpoint) {
 			.catch(err => console.log(err));
 }
 
+
 const renderLocationTime = async function(location, locationContainer) {
-	// let timeInterval;
 	const data = await getLocationTime(location.apiEndpoint);
 	let millisecs = new Date(data.datetime.slice(0, 19)).getTime();
 
@@ -155,7 +155,7 @@ let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
 let homeCities = []
 cityData.forEach(city => {
 	if(city.city === 'Lagos' || city.city === 'New_York' ||
-		city.city === 'Havana' || city.city === 'Berlin' || city.city === 'Madrid') {
+		city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
 		homeCities.push(city)
 	}
 })
@@ -196,3 +196,5 @@ for (let i = 0; i < homeCities.length; i++) {
 	`
 	renderLocationTime(homeCities[i], locationContainers[i]);
 }
+
+// const mapData = mapData
