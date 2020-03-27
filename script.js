@@ -211,7 +211,16 @@ const checkCities = async function() {
 	}
 }
 
-//displaying info about a particular place onclick
+
+//adding load spinner
+function loadSpinner() {
+	detailsDiv.innerHTML = '';
+	detailsDiv.innerHTML = `<img class="loader-icon" src="assets/loader.gif" alt="loader icon">`;
+}
+
+//displaying info about a particular place
 
 const renderCityInfo = async function(city) {
+	suggestions.style.display = 'none';
+	loadSpinner()
 }
