@@ -131,10 +131,12 @@ function clockTime(date, hour, minute, second) {
 	hands[1].hand.parentNode.setAttribute('data-second-angle', hands[2].angle)
 }
 
+
 function setUpMinuteHands(locationContainer) {
 	const container = locationContainer.querySelector('.minutes-container');
 	let secondAngle = container.getAttribute('data-second-angle')
 	if (secondAngle > 0) {
+		//to move minute hand when second hand hits 12
 		let delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
 		setTimeout(function() {
 			moveMinuteHourHands(container, locationContainer);
@@ -142,6 +144,7 @@ function setUpMinuteHands(locationContainer) {
 	}
 }
 
+//move minute and hour hands every 60 seconds
 function moveMinuteHourHands(container, locationContainer) {
 	const hourContainer = locationContainer.querySelector('.hours-container');
 	container.style.transform = 'rotateZ(6deg)';
