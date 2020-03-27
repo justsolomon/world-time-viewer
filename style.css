@@ -100,7 +100,7 @@ form {
 /* analog clock */
 .clock {
 	border-radius: 50%;
-	background: #fff url(https://cssanimation.rocks/images/posts/clocks/ios_clock.svg) no-repeat center;
+	background: #fff url(assets/clock-face.svg) no-repeat center;
 	height: 10em;
 	background-size: 88%;
 	position: relative;
