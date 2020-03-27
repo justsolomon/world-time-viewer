@@ -15,11 +15,11 @@ async function getData(){
 	await fetch('https://gist.githubusercontent.com/Solomon403/a95358686118afddc920e84b763ad634/raw/264a1f0c2913de32fd6eb2e06b1ae3aa9ccb214a/cityData.json')
 			.then(res => res.json())
 			.then(data => cityData = data)
-			.catch(err => console.log(err))
-	checkCities()
+			.catch(err => console.log(err));
+	checkCities();
 }
 
-getData()
+getData();
 
 function findMatches(wordToMatch, cityData) {
 	//filter out city objects matching search term
@@ -40,7 +40,7 @@ function displayMatches() {
 	const matchArray = findMatches(this.value, cityData)
 	let markup = matchArray.map(place => {
 		return `
-			<li class="location">
+			<li class="location" id="${place.city}">
 				<span class="name">${place.city}, ${place.country}</span>
 				<span class="flag">${place.flag}</span>
 			</li>
@@ -52,12 +52,8 @@ function displayMatches() {
 
 	//add event listener on each list item for rendering their time
 	locations.forEach(location => {
-		cityName = location.querySelector('.name').textContent
-		commaIndex = cityName.indexOf(',')
-		cityName = cityName.slice(0, commaIndex)
 		location.addEventListener('click', function() {
-			arr = findMatches(cityName, cityData)
-			renderLocationTime(arr[0])
+			renderCityInfo(findMatches(this.id, cityData)[0])
 		})
 	})
 }
@@ -164,20 +160,20 @@ function moveMinuteHourHands(container, locationContainer) {
 
 
 let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
+const detailsDiv = document.querySelector('.main-display')
 //create and fill array of cities displayed on homepage 
 let homeCities = []
 
-async function checkCities() {
+const checkCities = async function() {
 	//get city based on ip address of user
 	let home = await getLocationTime('https://worldtimeapi.org/api/ip')
-	
+
 	cityData.forEach(city => {
 		if(home.timezone.includes(city.city) || city.city === 'New_York' ||
 			city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
 			homeCities.push(city)
 		}
 	})
-	const detailsDiv = document.querySelector('.main-display')
 
 	//add analog clock markup to page
 	for (let i = 0; i < 5; i++) {
@@ -213,4 +209,9 @@ async function checkCities() {
 		`
 		renderLocationTime(homeCities[i], locationContainers[i]);
 	}
+}
+
+//displaying info about a particular place onclick
+
+const renderCityInfo = async function(city) {
 }
