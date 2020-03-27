@@ -167,9 +167,12 @@ let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
 //create and fill array of cities displayed on homepage 
 let homeCities = []
 
-function checkCities() {
+async function checkCities() {
+	//get city based on ip address of user
+	let home = await getLocationTime('https://worldtimeapi.org/api/ip')
+	
 	cityData.forEach(city => {
-		if(city.city === 'Lagos' || city.city === 'New_York' ||
+		if(home.timezone.includes(city.city) || city.city === 'New_York' ||
 			city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
 			homeCities.push(city)
 		}
@@ -211,4 +214,3 @@ function checkCities() {
 		renderLocationTime(homeCities[i], locationContainers[i]);
 	}
 }
-
