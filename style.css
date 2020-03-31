@@ -319,17 +319,14 @@ form {
 		width: 10em;
 		height: 10em;
 	}
-	.city-info .current-time {
-		font-size: 1.5rem;
-	}
 	.city-info .current-time span {
-		font-size: .8rem;
+		font-size: .9rem;
 	}
 	.city-info .current-date {
 		font-size: .95rem;
 	}
 	.city-info .more-details p {
-		font-size: .9rem;
+		font-size: 1rem;
 	}
 	.more-details br {
 		display: none;
