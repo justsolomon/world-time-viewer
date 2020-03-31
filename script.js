@@ -164,6 +164,20 @@ const detailsDiv = document.querySelector('.main-display')
 //create and fill array of cities displayed on homepage 
 let homeCities = []
 
+let clockMarkup = `<article class="clock">
+						<div class="hours-container">
+							<div class="hours"></div>
+						</div>
+								
+						<div class="minutes-container">
+							<div class="minutes"></div>
+						</div>
+								
+						<div class="seconds-container">
+							<div class="seconds"></div>
+						</div>
+					</article>`
+
 const checkCities = async function() {
 	//get city based on ip address of user
 	let home = await getLocationTime('https://worldtimeapi.org/api/ip')
@@ -178,21 +192,8 @@ const checkCities = async function() {
 	//add analog clock markup to page
 	for (let i = 0; i < 5; i++) {
 		detailsDiv.insertAdjacentHTML(`beforeend`, `
-				<div class = "location-container">
-					<article class="clock">
-						<div class="hours-container">
-							<div class="hours"></div>
-						</div>
-								
-						<div class="minutes-container">
-							<div class="minutes"></div>
-						</div>
-								
-						<div class="seconds-container">
-							<div class="seconds"></div>
-						</div>
-					</article>
-
+				<div class="location-container">
+					${clockMarkup}
 					<div class="country-details"></div>
 				</div>
 			`)
@@ -202,13 +203,13 @@ const checkCities = async function() {
 	const locationContainers = document.querySelectorAll('.location-container')
 
 	//display times of cities on homepage
-	for (let i = 0; i < homeCities.length; i++) {
-		countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
-			<p class="time"></p>
-		`
-		renderLocationTime(homeCities[i], locationContainers[i]);
-	}
+	// for (let i = 0; i < homeCities.length; i++) {
+	// 	countryDetails[i].innerHTML = `
+	// 		<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+	// 		<p class="time"></p>
+	// 	`
+	// 	renderLocationTime(homeCities[i], locationContainers[i]);
+	// }
 }
 
 
@@ -223,4 +224,34 @@ function loadSpinner() {
 const renderCityInfo = async function(city) {
 	suggestions.style.display = 'none';
 	loadSpinner()
+	detailsDiv.innerHTML = `
+		<h1>${city.flag} Current Local Time in ${city.city}, ${city.country}</h1>
+		<div class="city-info">
+			<div class="location-container">
+				${clockMarkup}
+				<p class="time"></p>
+			</div>
+
+			<div class="more-details">
+				<p>Country: ${city.country}</p>
+				<br>
+				<p>Lat/Long: ${city.latitude}/${city.longitude}</p>
+				<p>Demonym: ${city.demonym}</p>
+				<p>Timezone: ${city.timezone}</p>
+			</div>
+
+			<div class="map">
+				${city.mapHTML}
+			</div>
+		</div>
+
+		<div class="about-city">
+			<h2>About ${city.city}</h2>
+			<p>${city.about}</p>
+			<p>Read more about ${city.city} on 
+				<a href="${city.wikipediaUrl}">Wikipedia</a>
+			</p>
+		</div>
+	`
+	renderLocationTime(city, document.querySelector('.location-container'))
 }
