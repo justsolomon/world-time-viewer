@@ -188,3 +188,34 @@ form {
 		height: .6rem;
 	}
 }
+
+/* ============
+	Styles for
+	City Info
+============= */
+
+.city-info {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.city-info .clock{
+	width: 15em;
+	height: 15em;
+}
+
+.map {
+	width: 15em;
+	height: 15em;
+	position: relative;
+	overflow: hidden;
+}
+
+.map .center {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	padding: 1rem;
+	box-sizing: content-box;
+}
