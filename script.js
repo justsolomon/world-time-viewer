@@ -46,6 +46,7 @@ function displayMatches() {
 	//add event listener on each list item for rendering their time
 	locations.forEach(location => {
 		location.addEventListener('click', function() {
+			searchInput.value = '';
 			detailsDiv.innerHTML = '';
 			renderCityInfo(findMatches(this.id, cityData)[0])
 		})
