@@ -242,6 +242,7 @@ form {
 .city-info .current-date {
 	margin: 0;
 	width: 100%;
+	font-size: 1.1rem;
 }
 
 .city-info .more-details p {
@@ -269,6 +270,7 @@ form {
 
 .about-city p {
 	font-size: 1.1rem;
+	word-spacing: .3rem;
 }
 
 .about-city a {
