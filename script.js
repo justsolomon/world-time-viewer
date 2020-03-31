@@ -212,18 +212,10 @@ const checkCities = async function() {
 	// }
 }
 
-
-//adding load spinner
-function loadSpinner() {
-	detailsDiv.innerHTML = '';
-	detailsDiv.innerHTML = `<img class="loader-icon" src="assets/loader.gif" alt="loader icon">`;
-}
-
 //displaying info about a particular place
 
 const renderCityInfo = async function(city) {
 	suggestions.style.display = 'none';
-	loadSpinner()
 	detailsDiv.innerHTML = `
 		<h1>${city.flag} Current Local Time in ${city.city}, ${city.country}</h1>
 		<div class="city-info">
