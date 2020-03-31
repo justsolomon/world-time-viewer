@@ -53,6 +53,7 @@ function displayMatches() {
 	//add event listener on each list item for rendering their time
 	locations.forEach(location => {
 		location.addEventListener('click', function() {
+			detailsDiv.innerHTML = '';
 			renderCityInfo(findMatches(this.id, cityData)[0])
 		})
 	})
@@ -95,8 +96,9 @@ const renderLocationTime = async function(location, locationContainer) {
 		//add markup showing time/date
 		if(locationContainer.querySelector('.city-time')) {
 			locationContainer.querySelector('.city-time').innerHTML = `
-				<p class="current-time">${date.toTimeString().slice(0, 8)}
-					<span class="timezone">${data.abbreviation}</span>
+				<p class="current-time">
+					${date.toTimeString().slice(0, 8)}
+					<span>${data.abbreviation}</span>
 				</p>
 				<p class="current-date">${fulldays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}</p>
 			`
@@ -233,7 +235,6 @@ const checkCities = async function() {
 
 const renderCityInfo = async function(city) {
 	suggestions.style.display = 'none';
-	detailsDiv.innerHTML = '';
 	detailsDiv.innerHTML = `
 		<h1>${city.flag} Current Local Time in ${city.city}, ${city.country}</h1>
 		<div class="city-info">
@@ -243,11 +244,19 @@ const renderCityInfo = async function(city) {
 			</div>
 
 			<div class="more-details">
-				<p>Country: ${city.country}</p>
+				<p>
+					<span>Country</span>: ${city.country}
+				</p>
 				<br>
-				<p>Lat/Long: ${city.latitude}/${city.longitude}</p>
-				<p>Demonym: ${city.demonym}</p>
-				<p>Timezone: ${city.timezone}</p>
+				<p>
+					<span>Coordinates</span>: ${city.latitude}, ${city.longitude}
+				</p>
+				<p>
+					<span>Demonym</span>: ${city.demonym}
+				</p>
+				<p>
+					<span>Timezone</span>: ${city.timezone}
+				</p>
 			</div>
 
 			<div class="map">
@@ -259,7 +268,7 @@ const renderCityInfo = async function(city) {
 			<h2>About ${city.city}</h2>
 			<p>${city.about}</p>
 			<p>Read more about ${city.city} on 
-				<a href="${city.wikipediaUrl}">Wikipedia</a>
+				<a href="${city.wikipediaUrl}">Wikipedia.</a>
 			</p>
 		</div>
 	`
