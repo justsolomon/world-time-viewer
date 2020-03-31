@@ -197,17 +197,57 @@ form {
 .city-info {
 	display: flex;
 	width: 100%;
-	justify-content: space-between;
+	height: 20em;
+}
+
+.city-info .location-container {
+	width: 25%;
+	margin-right: 5%;
+	text-align: center;
+}
+
+.city-info .more-details {
+	width: 30%;
+	margin-right: 5%;
+}
+
+.city-info .map {
+	width: 30%;
 }
 
 .city-info .clock{
 	width: 15em;
 	height: 15em;
+	margin: auto;
+}
+
+.city-info .current-time {
+	font-weight: 600;
+	font-size: 1.7rem;
+	margin: 0;
+}
+
+.city-info .current-time span {
+	font-size: .9rem;
+	font-weight: 100;
+}
+
+.city-info .current-date {
+	margin: 0;
+	width: 100%;
+}
+
+.city-info .more-details p {
+	font-size: 1.2rem;
+}
+
+.city-info .more-details span {
+	font-weight: 600;
 }
 
 .map {
-	width: 15em;
-	height: 15em;
+	width: 20em;
+	height: 100%;
 	position: relative;
 	overflow: hidden;
 }
@@ -218,4 +258,17 @@ form {
 	overflow: auto;
 	padding: 1rem;
 	box-sizing: content-box;
+}
+
+.about-city p {
+	font-size: 1.1rem;
+}
+
+.about-city a {
+	color: rgba(0, 0, 255, .7);
+	text-decoration: none;
+}
+
+.about-city a:hover {
+	text-decoration: underline;
 }
