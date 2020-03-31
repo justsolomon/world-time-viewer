@@ -29,9 +29,12 @@ function displayMatches() {
 	//add markup of suggestions list to page
 	const matchArray = findMatches(this.value, cityData)
 	let markup = matchArray.map(place => {
+		let location = '';
+		if (place.country !== '') location = `${place.city.replace('_', ' ')}, ${place.country}`;
+		else location = `${place.city.replace('_', ' ')}`;
 		return `
 			<li class="location" id="${place.city}">
-				<span class="name">${place.city.replace('_', ' ')}, ${place.country}</span>
+				<span class="name">${location}</span>
 				<span class="flag">${place.flag}</span>
 			</li>
 		`
