@@ -276,7 +276,7 @@ const renderCityInfo = async function(city) {
 		<div class="about-city">
 			<h2>About ${cityName}</h2>
 			<p>${city.about}</p>
-			<p>Read more about ${cityName} on 
+			<p>Find out more about ${cityName} on 
 				<a href="${city.wikipediaUrl}">Wikipedia.</a>
 			</p>
 		</div>
