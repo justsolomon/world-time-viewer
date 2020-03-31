@@ -31,7 +31,7 @@ function displayMatches() {
 	let markup = matchArray.map(place => {
 		return `
 			<li class="location" id="${place.city}">
-				<span class="name">${place.city}, ${place.country}</span>
+				<span class="name">${place.city.replace('_', ' ')}, ${place.country}</span>
 				<span class="flag">${place.flag}</span>
 			</li>
 		`
@@ -199,7 +199,7 @@ const checkCities = async function() {
 	})
 
 	//add analog clock markup to page
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < homeCities.length; i++) {
 		detailsDiv.insertAdjacentHTML(`beforeend`, `
 				<div class="location-container">
 					${clockMarkup}
@@ -215,17 +215,23 @@ const checkCities = async function() {
 	for (let i = 0; i < homeCities.length; i++) {
 		if(home.timezone.includes(homeCities[i].city)) {
 			countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
 			<i class="fa fa-home"></i>
 			<p class="time" style="display: inline"></p>
 		`
 		} else {
 			countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
 			<p class="time"></p>
 		`
 		}
 		renderLocationTime(homeCities[i], locationContainers[i]);
+
+		//add event listener for displaying the city full info
+		locationContainers[i].addEventListener('click', function() {
+			detailsDiv.innerHTML = '';
+			renderCityInfo(homeCities[i])
+		})
 	}
 }
 
@@ -233,8 +239,9 @@ const checkCities = async function() {
 
 const renderCityInfo = async function(city) {
 	suggestions.style.display = 'none';
+	cityName = city.city.replace('_', ' ');
 	detailsDiv.innerHTML = `
-		<h1>${city.flag} Current Local Time in ${city.city}, ${city.country}</h1>
+		<h1>${city.flag} Current Local Time in ${cityName}, ${city.country}</h1>
 		<div class="city-info">
 			<div class="location-container">
 				${clockMarkup}
@@ -263,9 +270,9 @@ const renderCityInfo = async function(city) {
 		</div>
 
 		<div class="about-city">
-			<h2>About ${city.city}</h2>
+			<h2>About ${cityName}</h2>
 			<p>${city.about}</p>
-			<p>Read more about ${city.city} on 
+			<p>Read more about ${cityName} on 
 				<a href="${city.wikipediaUrl}">Wikipedia.</a>
 			</p>
 		</div>
