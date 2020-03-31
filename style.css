@@ -1,3 +1,7 @@
+/* ===============
+	General styles
+================ */
+
 html {
   box-sizing: border-box;
   background: #ffc600;
@@ -14,6 +18,15 @@ html {
 main {
 	width: 95%;
 	margin: 0 auto;
+}
+
+a {
+	color: rgba(0, 0, 255, .7);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 /* ====================
@@ -175,6 +188,7 @@ form {
 	z-index: 8;
 }
 
+/* homepage styles for mobile phones */
 @media(max-width: 650px) {
 	form {
 		width: 100%;
@@ -276,16 +290,53 @@ form {
 	box-sizing: content-box;
 }
 
+/* city description */
 .about-city p {
 	font-size: 1.1rem;
 	word-spacing: .3rem;
 }
 
-.about-city a {
-	color: rgba(0, 0, 255, .7);
-	text-decoration: none;
-}
+/* city-info styles for mobile phones */
+@media (max-width: 650px) {
+	.main-display h1 {
+		width: 100%;
+		font-size: 1.3rem;
+	}
+	.city-info {
+		flex-direction: column;
+		height: 100%;
+	}
+	.city-info .location-container,
+	.city-info .more-details,
+	.city-info .map {
+		width: 100%;
+		margin: 0 auto;
+	}
+	.city-info .clock {
+		width: 10em;
+		height: 10em;
+	}
+	.city-info .current-time {
+		font-size: 1.5rem;
+	}
+	.city-info .current-time span {
+		font-size: .8rem;
+	}
+	.city-info .current-date {
+		font-size: .95rem;
+	}
+	.city-info .more-details p {
+		font-size: .9rem;
+	}
+	.more-details br {
+		display: none;
+	}
 
-.about-city a:hover {
-	text-decoration: underline;
+	.about-city h2 {
+		font-size: 1.2rem;
+	}
+	.about-city p {
+		font-size: 1rem;
+		word-spacing: .1rem;
+	}
 }
