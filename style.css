@@ -15,6 +15,10 @@ html {
   box-sizing: inherit;
 }
 
+body {
+	color: #111111;
+}
+
 main {
 	width: 95%;
 	margin: 0 auto;
