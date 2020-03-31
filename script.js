@@ -213,10 +213,18 @@ const checkCities = async function() {
 
 	//display times of cities on homepage
 	for (let i = 0; i < homeCities.length; i++) {
-		countryDetails[i].innerHTML = `
+		if(home.timezone.includes(homeCities[i].city)) {
+			countryDetails[i].innerHTML = `
+			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+			<i class="fa fa-home"></i>
+			<p class="time" style="display: inline"></p>
+		`
+		} else {
+			countryDetails[i].innerHTML = `
 			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
 			<p class="time"></p>
 		`
+		}
 		renderLocationTime(homeCities[i], locationContainers[i]);
 	}
 }
