@@ -203,25 +203,25 @@ const checkCities = async function() {
 		detailsDiv.insertAdjacentHTML(`beforeend`, `
 				<div class="location-container">
 					${clockMarkup}
-					<div class="country-details"></div>
+					<div class="city-details"></div>
 				</div>
 			`)
 	}
 
-	const countryDetails = document.querySelectorAll('.country-details')
+	const countryDetails = document.querySelectorAll('.city-details')
 	const locationContainers = document.querySelectorAll('.location-container')
 
 	//display times of cities on homepage
 	for (let i = 0; i < homeCities.length; i++) {
 		if(home.timezone.includes(homeCities[i].city)) {
 			countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
+			<p class="city-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
 			<i class="fa fa-home"></i>
 			<p class="time" style="display: inline"></p>
 		`
 		} else {
 			countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
+			<p class="city-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
 			<p class="time"></p>
 		`
 		}
