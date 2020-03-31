@@ -86,7 +86,7 @@ form {
 	cursor: pointer;
 }
 
-.country-name {
+.city-name {
 	font-size: 1.2rem;
 	font-weight: bold;
 	padding: 0;
@@ -96,6 +96,11 @@ form {
 .time {
 	padding: 0;
 	margin: 0;
+}
+
+.city-name:hover {
+	color: blue;
+	text-decoration: underline;
 }
 
 /*.fa {
