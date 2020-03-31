@@ -83,6 +83,7 @@ form {
 
 .location-container {
 	width: 10em;
+	cursor: pointer;
 }
 
 .country-name {
@@ -97,6 +98,9 @@ form {
 	margin: 0;
 }
 
+/*.fa {
+	display: inline;
+}*/
 /* analog clock */
 .clock {
 	border-radius: 50%;
@@ -204,6 +208,7 @@ form {
 	width: 25%;
 	margin-right: 5%;
 	text-align: center;
+	cursor: default;
 }
 
 .city-info .more-details {
