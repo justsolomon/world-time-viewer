@@ -1,3 +1,7 @@
+/* ===============
+	General styles
+================ */
+
 html {
   box-sizing: border-box;
   background: #ffc600;
@@ -14,6 +18,15 @@ html {
 main {
 	width: 95%;
 	margin: 0 auto;
+}
+
+a {
+	color: rgba(0, 0, 255, .7);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 /* ====================
@@ -83,9 +96,10 @@ form {
 
 .location-container {
 	width: 10em;
+	cursor: pointer;
 }
 
-.country-name {
+.city-name {
 	font-size: 1.2rem;
 	font-weight: bold;
 	padding: 0;
@@ -97,10 +111,15 @@ form {
 	margin: 0;
 }
 
+.city-name:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
 /* analog clock */
 .clock {
 	border-radius: 50%;
-	background: #fff url(https://cssanimation.rocks/images/posts/clocks/ios_clock.svg) no-repeat center;
+	background: #fff url(assets/clock-face.svg) no-repeat center;
 	height: 10em;
 	background-size: 88%;
 	position: relative;
@@ -169,12 +188,14 @@ form {
 	z-index: 8;
 }
 
+/* homepage styles for mobile phones */
 @media(max-width: 650px) {
 	form {
 		width: 100%;
 	}
 	.location-container {
-		/*width: 8em;*/
+		margin-bottom: 1rem;
+		text-align: center;
 	}
 	.suggestions li {
 		font-size: 1rem;
@@ -182,9 +203,140 @@ form {
 	.clock {
 		height: 7em;
 		width: 7em;
+		margin: auto;
 	}
 	.clock:after {
 		width: .6rem;
 		height: .6rem;
+	}
+	.city-name {
+		font-size: 1.1rem;
+	}
+	.time {
+		font-size: .9rem;
+	}
+}
+
+/* ============
+	Styles for
+	City Info
+============= */
+
+.city-info {
+	display: flex;
+	width: 100%;
+	height: 20em;
+}
+
+.city-info .location-container {
+	width: 25%;
+	margin-right: 5%;
+	text-align: center;
+	cursor: default;
+}
+
+.city-info .more-details {
+	width: 30%;
+	margin-right: 5%;
+}
+
+.city-info .map {
+	width: 30%;
+}
+
+.city-info .clock{
+	width: 15em;
+	height: 15em;
+	margin: auto;
+}
+
+.city-info .current-time {
+	font-weight: 600;
+	font-size: 1.7rem;
+	margin: 0;
+}
+
+.city-info .current-time span {
+	font-size: .9rem;
+	font-weight: 100;
+}
+
+.city-info .current-date {
+	margin: 0;
+	width: 100%;
+	font-size: 1.1rem;
+}
+
+.city-info .more-details p {
+	font-size: 1.2rem;
+}
+
+.city-info .more-details span {
+	font-weight: 600;
+}
+
+.map {
+	width: 20em;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.map .center {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	padding: 1rem;
+	box-sizing: content-box;
+}
+
+/* city description */
+.about-city p {
+	font-size: 1.1rem;
+	word-spacing: .3rem;
+}
+
+/* city-info styles for mobile phones */
+@media (max-width: 650px) {
+	.main-display h1 {
+		width: 100%;
+		font-size: 1.3rem;
+	}
+	.city-info {
+		flex-direction: column;
+		height: 100%;
+	}
+	.city-info .location-container,
+	.city-info .more-details,
+	.city-info .map {
+		width: 100%;
+		margin: 0 auto;
+	}
+	.city-info .clock {
+		width: 10em;
+		height: 10em;
+	}
+	.city-info .current-time {
+		font-size: 1.5rem;
+	}
+	.city-info .current-time span {
+		font-size: .8rem;
+	}
+	.city-info .current-date {
+		font-size: .95rem;
+	}
+	.city-info .more-details p {
+		font-size: .9rem;
+	}
+	.more-details br {
+		display: none;
+	}
+
+	.about-city h2 {
+		font-size: 1.2rem;
+	}
+	.about-city p {
+		font-size: 1rem;
+		word-spacing: .1rem;
 	}
 }

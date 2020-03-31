@@ -1,13 +1,3 @@
-// const renderAreaLocations = async function() {
-// 	const data = await getAreaLocations();
-// 	if(timeInterval) clearInterval(timeInterval);
-// 	currentTime.innerHTML = '';
-// 	displayAreaLocations(data);
-// 	areaLocationLabel.style.display = 'block';
-// 	searchButton.disabled = false;
-// }
-
-
 //fetch json data(from github gist) into cityData variable
 let cityData;
 
@@ -15,11 +5,11 @@ async function getData(){
 	await fetch('https://gist.githubusercontent.com/Solomon403/a95358686118afddc920e84b763ad634/raw/55be5bb415ff741ffbbf9e19a9312ee438524996/cityData.json')
 			.then(res => res.json())
 			.then(data => cityData = data)
-			.catch(err => console.log(err))
-	checkCities()
+			.catch(err => console.log(err));
+	checkCities();
 }
 
-getData()
+getData();
 
 function findMatches(wordToMatch, cityData) {
 	//filter out city objects matching search term
@@ -40,8 +30,8 @@ function displayMatches() {
 	const matchArray = findMatches(this.value, cityData)
 	let markup = matchArray.map(place => {
 		return `
-			<li class="location">
-				<span class="name">${place.city}, ${place.country}</span>
+			<li class="location" id="${place.city}">
+				<span class="name">${place.city.replace('_', ' ')}, ${place.country}</span>
 				<span class="flag">${place.flag}</span>
 			</li>
 		`
@@ -52,12 +42,9 @@ function displayMatches() {
 
 	//add event listener on each list item for rendering their time
 	locations.forEach(location => {
-		cityName = location.querySelector('.name').textContent
-		commaIndex = cityName.indexOf(',')
-		cityName = cityName.slice(0, commaIndex)
 		location.addEventListener('click', function() {
-			arr = findMatches(cityName, cityData)
-			renderLocationTime(arr[0])
+			detailsDiv.innerHTML = '';
+			renderCityInfo(findMatches(this.id, cityData)[0])
 		})
 	})
 }
@@ -66,6 +53,9 @@ const searchInput = document.querySelector('.search')
 const suggestions = document.querySelector('.suggestions')
 searchInput.addEventListener('change', displayMatches)
 searchInput.addEventListener('keyup', displayMatches)
+searchInput.addEventListener('keypress', function(e) {
+	if (e.key === 'Enter') e.preventDefault();
+})
 
 
 function getLocationTime(endpoint) {
@@ -93,7 +83,19 @@ const renderLocationTime = async function(location, locationContainer) {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		locationContainer.querySelector('.time').textContent = `${days[date.getDay()]} ${date.toLocaleTimeString()}`;
+		//add markup showing time/date
+		if(locationContainer.querySelector('.city-time')) {
+			locationContainer.querySelector('.city-time').innerHTML = `
+				<p class="current-time">
+					${date.toTimeString().slice(0, 8)}
+					<span>${data.abbreviation}</span>
+				</p>
+				<p class="current-date">${fulldays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}</p>
+			`
+		} else {
+			locationContainer.querySelector('.time').textContent = `${days[date.getDay()]} ${date.toLocaleTimeString()}`;
+		};
+		
 		//to keep rotating the seconds hand
 		const container = locationContainer.querySelector('.seconds-container');
 		if (container.angle === undefined) container.angle = 6;
@@ -131,10 +133,12 @@ function clockTime(date, hour, minute, second) {
 	hands[1].hand.parentNode.setAttribute('data-second-angle', hands[2].angle)
 }
 
+
 function setUpMinuteHands(locationContainer) {
 	const container = locationContainer.querySelector('.minutes-container');
 	let secondAngle = container.getAttribute('data-second-angle')
 	if (secondAngle > 0) {
+		//to move minute hand when second hand hits 12
 		let delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
 		setTimeout(function() {
 			moveMinuteHourHands(container, locationContainer);
@@ -142,6 +146,7 @@ function setUpMinuteHands(locationContainer) {
 	}
 }
 
+//move minute and hour hands every 60 seconds
 function moveMinuteHourHands(container, locationContainer) {
 	const hourContainer = locationContainer.querySelector('.hours-container');
 	container.style.transform = 'rotateZ(6deg)';
@@ -161,23 +166,14 @@ function moveMinuteHourHands(container, locationContainer) {
 
 
 let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
+let fulldays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+const detailsDiv = document.querySelector('.main-display')
 //create and fill array of cities displayed on homepage 
 let homeCities = []
 
-function checkCities() {
-	cityData.forEach(city => {
-		if(city.city === 'Lagos' || city.city === 'New_York' ||
-			city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
-			homeCities.push(city)
-		}
-	})
-	const detailsDiv = document.querySelector('.main-display')
-
-	//add analog clock markup to page
-	for (let i = 0; i < 5; i++) {
-		detailsDiv.insertAdjacentHTML(`beforeend`, `
-				<div class = "location-container">
-					<article class="clock">
+let clockMarkup = `<article class="clock">
 						<div class="hours-container">
 							<div class="hours"></div>
 						</div>
@@ -189,23 +185,97 @@ function checkCities() {
 						<div class="seconds-container">
 							<div class="seconds"></div>
 						</div>
-					</article>
+					</article>`
 
-					<div class="country-details"></div>
+const checkCities = async function() {
+	//get city based on ip address of user
+	let home = await getLocationTime('https://worldtimeapi.org/api/ip')
+
+	cityData.forEach(city => {
+		if(home.timezone.includes(city.city) || city.city === 'New_York' ||
+			city.city === 'San_Juan' || city.city === 'Berlin' || city.city === 'Seoul') {
+			homeCities.push(city)
+		}
+	})
+
+	//add analog clock markup to page
+	for (let i = 0; i < homeCities.length; i++) {
+		detailsDiv.insertAdjacentHTML(`beforeend`, `
+				<div class="location-container">
+					${clockMarkup}
+					<div class="city-details"></div>
 				</div>
 			`)
 	}
 
-	const countryDetails = document.querySelectorAll('.country-details')
+	const countryDetails = document.querySelectorAll('.city-details')
 	const locationContainers = document.querySelectorAll('.location-container')
 
 	//display times of cities on homepage
 	for (let i = 0; i < homeCities.length; i++) {
-		countryDetails[i].innerHTML = `
-			<p class="country-name">${homeCities[i].flag} ${homeCities[i].city}</p>
+		if(home.timezone.includes(homeCities[i].city)) {
+			countryDetails[i].innerHTML = `
+			<p class="city-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
+			<i class="fa fa-home"></i>
+			<p class="time" style="display: inline"></p>
+		`
+		} else {
+			countryDetails[i].innerHTML = `
+			<p class="city-name">${homeCities[i].flag} ${homeCities[i].city.replace('_', ' ')}</p>
 			<p class="time"></p>
 		`
+		}
 		renderLocationTime(homeCities[i], locationContainers[i]);
+
+		//add event listener for displaying the city full info
+		locationContainers[i].addEventListener('click', function() {
+			detailsDiv.innerHTML = '';
+			renderCityInfo(homeCities[i])
+		})
 	}
 }
 
+//displaying info about a particular place
+
+const renderCityInfo = async function(city) {
+	suggestions.style.display = 'none';
+	cityName = city.city.replace('_', ' ');
+	detailsDiv.innerHTML = `
+		<h1>${city.flag} Current Local Time in ${cityName}, ${city.country}</h1>
+		<div class="city-info">
+			<div class="location-container">
+				${clockMarkup}
+				<p class="city-time"></p>
+			</div>
+
+			<div class="more-details">
+				<p>
+					<span>Country</span>: ${city.country}
+				</p>
+				<br>
+				<p>
+					<span>Coordinates</span>: ${city.latitude}, ${city.longitude}
+				</p>
+				<p>
+					<span>Demonym</span>: ${city.demonym}
+				</p>
+				<p>
+					<span>Timezone</span>: ${city.timezone}
+				</p>
+			</div>
+
+			<div class="map">
+				${city.mapHTML}
+			</div>
+		</div>
+
+		<div class="about-city">
+			<h2>About ${cityName}</h2>
+			<p>${city.about}</p>
+			<p>Read more about ${cityName} on 
+				<a href="${city.wikipediaUrl}">Wikipedia.</a>
+			</p>
+		</div>
+	`
+	renderLocationTime(city, document.querySelector('.location-container'))
+}
