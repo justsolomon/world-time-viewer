@@ -180,7 +180,8 @@ form {
 		width: 100%;
 	}
 	.location-container {
-		/*width: 8em;*/
+		margin-bottom: 1rem;
+		text-align: center;
 	}
 	.suggestions li {
 		font-size: 1rem;
@@ -188,10 +189,17 @@ form {
 	.clock {
 		height: 7em;
 		width: 7em;
+		margin: auto;
 	}
 	.clock:after {
 		width: .6rem;
 		height: .6rem;
+	}
+	.city-name {
+		font-size: 1.1rem;
+	}
+	.time {
+		font-size: .9rem;
 	}
 }
 
