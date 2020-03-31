@@ -92,7 +92,18 @@ const renderLocationTime = async function(location, locationContainer) {
 		let date = new Date(millisecs);
 		millisecs += 1000;
 
-		locationContainer.querySelector('.time').textContent = `${days[date.getDay()]} ${date.toLocaleTimeString()}`;
+		//add markup showing time/date
+		if(locationContainer.querySelector('.city-time')) {
+			locationContainer.querySelector('.city-time').innerHTML = `
+				<p class="current-time">${date.toTimeString().slice(0, 8)}
+					<span class="timezone">${data.abbreviation}</span>
+				</p>
+				<p class="current-date">${fulldays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}</p>
+			`
+		} else {
+			locationContainer.querySelector('.time').textContent = `${days[date.getDay()]} ${date.toLocaleTimeString()}`;
+		};
+		
 		//to keep rotating the seconds hand
 		const container = locationContainer.querySelector('.seconds-container');
 		if (container.angle === undefined) container.angle = 6;
@@ -163,6 +174,9 @@ function moveMinuteHourHands(container, locationContainer) {
 
 
 let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
+let fulldays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 const detailsDiv = document.querySelector('.main-display')
 //create and fill array of cities displayed on homepage 
 let homeCities = []
@@ -219,12 +233,13 @@ const checkCities = async function() {
 
 const renderCityInfo = async function(city) {
 	suggestions.style.display = 'none';
+	detailsDiv.innerHTML = '';
 	detailsDiv.innerHTML = `
 		<h1>${city.flag} Current Local Time in ${city.city}, ${city.country}</h1>
 		<div class="city-info">
 			<div class="location-container">
 				${clockMarkup}
-				<p class="time"></p>
+				<p class="city-time"></p>
 			</div>
 
 			<div class="more-details">
