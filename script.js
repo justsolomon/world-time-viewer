@@ -2,7 +2,7 @@
 let cityData;
 
 async function getData(){
-	await fetch('https://gist.githubusercontent.com/Solomon403/a95358686118afddc920e84b763ad634/raw/55be5bb415ff741ffbbf9e19a9312ee438524996/cityData.json')
+	await fetch('https://gist.githubusercontent.com/justsolomon/a95358686118afddc920e84b763ad634/raw/55be5bb415ff741ffbbf9e19a9312ee438524996/cityData.json')
 			.then(res => res.json())
 			.then(data => cityData = data)
 			.catch(err => console.log(err));
